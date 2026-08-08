@@ -8,184 +8,127 @@ echo "=============================================="
 MARKS=0
 TOTAL=50
 
-# ----------------------------------------------
-
 # TEST 1 - index.html
-
-# ----------------------------------------------
 
 if [ -f index.html ]; then
 echo "TEST 1 PASS - index.html found - 5 marks"
 MARKS=$((MARKS + 5))
 else
-echo "TEST 1 FAIL - index.html missing"
+echo "TEST 1 FAIL - index.html missing - 0 marks"
 fi
 
-# ----------------------------------------------
-
 # TEST 2 - CSS file
-
-# ----------------------------------------------
 
 if [ -f styles/Ex10_main.css ]; then
 echo "TEST 2 PASS - CSS file found - 5 marks"
 MARKS=$((MARKS + 5))
 else
-echo "TEST 2 FAIL - CSS file missing"
+echo "TEST 2 FAIL - CSS file missing - 0 marks"
 fi
 
-# Stop if index.html is missing
+# Stop if index.html does not exist
 
 if [ ! -f index.html ]; then
-echo "Cannot continue without index.html"
+echo "Cannot continue because index.html is missing."
 exit 1
 fi
 
-# ----------------------------------------------
-
 # TEST 3 - main element
 
-# ----------------------------------------------
-
-if grep -Eiq '<main[^>]*>' index.html; then
-echo "TEST 3 PASS - <main> found - 5 marks"
+if grep -Eiq '<main[[:space:]>]' index.html; then
+echo "TEST 3 PASS - main element found - 5 marks"
 MARKS=$((MARKS + 5))
 else
-echo "TEST 3 FAIL - <main> missing"
+echo "TEST 3 FAIL - main element missing - 0 marks"
 fi
-
-# ----------------------------------------------
 
 # TEST 4 - section element
 
-# ----------------------------------------------
-
-if grep -Eiq '<section[^>]*>' index.html; then
-echo "TEST 4 PASS - <section> found - 5 marks"
+if grep -Eiq '<section[[:space:]>]' index.html; then
+echo "TEST 4 PASS - section element found - 5 marks"
 MARKS=$((MARKS + 5))
 else
-echo "TEST 4 FAIL - <section> missing"
+echo "TEST 4 FAIL - section element missing - 0 marks"
 fi
 
-# ----------------------------------------------
+# TEST 5 - At least two aside elements
 
-# TEST 5 - multiple aside elements
-
-# ----------------------------------------------
-
-ASIDE_COUNT=$(grep -Eio '<aside[^>]*>' index.html | wc -l)
+ASIDE_COUNT=$(grep -Eio '<aside([[:space:]>])' index.html | wc -l)
 
 if [ "$ASIDE_COUNT" -ge 2 ]; then
 echo "TEST 5 PASS - $ASIDE_COUNT aside elements found - 5 marks"
 MARKS=$((MARKS + 5))
 else
-echo "TEST 5 FAIL - Only $ASIDE_COUNT aside element(s) found"
+echo "TEST 5 FAIL - Only $ASIDE_COUNT aside element(s) found - 0 marks"
 fi
 
-# ----------------------------------------------
+# TEST 6 - Third column content
 
-# TEST 6 - third column content
-
-# ----------------------------------------------
-
-if [ "$ASIDE_COUNT" -ge 2 ]; then
-
-```
-if grep -Eiq \
-'Event change|Event Change|November 16|event' index.html; then
-
-    echo "TEST 6 PASS - Third column content found - 5 marks"
-    MARKS=$((MARKS + 5))
-
+if grep -Eiq 'Event change for November 16|Event Change for November 16' index.html; then
+echo "TEST 6 PASS - Third column content found - 5 marks"
+MARKS=$((MARKS + 5))
 else
-    echo "TEST 6 FAIL - Third column content not found"
-fi
-```
-
-else
-echo "TEST 6 FAIL - Third column not created"
+echo "TEST 6 FAIL - Third column content not found - 0 marks"
 fi
 
-# ----------------------------------------------
-
-# TEST 7 - aside width
-
-# ----------------------------------------------
+# TEST 7 - Aside width
 
 if [ -f styles/Ex10_main.css ]; then
 
 ```
-if grep -Eiq \
-'aside[[:space:]]*\{[^}]*width[[:space:]]*:' \
-styles/Ex10_main.css; then
+if grep -Eiq 'aside[[:space:]]*\{' styles/Ex10_main.css && \
+   grep -Eiq 'width[[:space:]]*:[[:space:]]*[0-9]+px' styles/Ex10_main.css; then
 
-    echo "TEST 7 PASS - Aside width found - 5 marks"
+    echo "TEST 7 PASS - Aside width property found - 5 marks"
     MARKS=$((MARKS + 5))
-
 else
-    echo "TEST 7 FAIL - Aside width missing"
+    echo "TEST 7 FAIL - Aside width property missing - 0 marks"
 fi
 ```
 
 else
-echo "TEST 7 FAIL - CSS file missing"
+echo "TEST 7 FAIL - CSS file missing - 0 marks"
 fi
 
-# ----------------------------------------------
-
-# TEST 8 - aside float
-
-# ----------------------------------------------
+# TEST 8 - Aside float
 
 if [ -f styles/Ex10_main.css ]; then
 
 ```
-if grep -Eiq \
-'aside[[:space:]]*\{[^}]*float[[:space:]]*:' \
-styles/Ex10_main.css; then
+if grep -Eiq 'aside[[:space:]]*\{' styles/Ex10_main.css && \
+   grep -Eiq 'float[[:space:]]*:[[:space:]]*(left|right)' styles/Ex10_main.css; then
 
-    echo "TEST 8 PASS - Aside float found - 5 marks"
+    echo "TEST 8 PASS - Aside float property found - 5 marks"
     MARKS=$((MARKS + 5))
-
 else
-    echo "TEST 8 FAIL - Aside float missing"
+    echo "TEST 8 FAIL - Aside float property missing - 0 marks"
 fi
 ```
 
 else
-echo "TEST 8 FAIL - CSS file missing"
+echo "TEST 8 FAIL - CSS file missing - 0 marks"
 fi
 
-# ----------------------------------------------
-
-# TEST 9 - footer clear
-
-# ----------------------------------------------
+# TEST 9 - Footer clear
 
 if [ -f styles/Ex10_main.css ]; then
 
 ```
-if grep -Eiq \
-'footer[[:space:]]*\{[^}]*clear[[:space:]]*:[[:space:]]*both' \
-styles/Ex10_main.css; then
+if grep -Eiq 'footer[[:space:]]*\{' styles/Ex10_main.css && \
+   grep -Eiq 'clear[[:space:]]*:[[:space:]]*both' styles/Ex10_main.css; then
 
     echo "TEST 9 PASS - footer clear: both found - 5 marks"
     MARKS=$((MARKS + 5))
-
 else
-    echo "TEST 9 FAIL - footer clear: both missing"
+    echo "TEST 9 FAIL - footer clear: both missing - 0 marks"
 fi
 ```
 
 else
-echo "TEST 9 FAIL - CSS file missing"
+echo "TEST 9 FAIL - CSS file missing - 0 marks"
 fi
 
-# ----------------------------------------------
-
 # TEST 10 - Original content
-
-# ----------------------------------------------
 
 CONTENT_OK=1
 
@@ -196,25 +139,13 @@ grep -Fqi "Our Ticket Packages" index.html || CONTENT_OK=0
 grep -Fqi "Guest speakers" index.html || CONTENT_OK=0
 
 if [ "$CONTENT_OK" -eq 1 ]; then
-
-```
 echo "TEST 10 PASS - Original content retained - 5 marks"
 MARKS=$((MARKS + 5))
-```
-
 else
-
-```
-echo "TEST 10 FAIL - Original content missing"
-```
-
+echo "TEST 10 FAIL - Original content missing - 0 marks"
 fi
 
-# ----------------------------------------------
-
-# FINAL SCORE
-
-# ----------------------------------------------
+# FINAL RESULT
 
 echo ""
 echo "=============================================="
