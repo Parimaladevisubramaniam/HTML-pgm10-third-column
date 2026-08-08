@@ -52,17 +52,14 @@ text-shadow: 2px 2px 2px #800000;
 /* main content */
 
 main {
-clear: left;
+    clear: left;
 }
-
 /* section */
-
 section {
-width: 525px;
-float: right;
-padding: 0 20px 20px 20px;
+    width: 525px;
+    float: right;
+    padding: 0 20px 20px 20px;
 }
-
 section h1 {
 font-size: 150%;
 padding: .5em 0 .25em 0;
