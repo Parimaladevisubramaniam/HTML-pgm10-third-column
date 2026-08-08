@@ -1,37 +1,25 @@
-name: Town Hall Third Column Autograder
+name: Third Column Autograder
 
 on:
-push:
-workflow_dispatch:
+  push:
+  workflow_dispatch:
 
 jobs:
+  grade:
+    runs-on: ubuntu-latest
 
-grade:
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-```
-runs-on: ubuntu-latest
+      - name: Check required files
+        run: |
+          test -f index.html
+          test -f styles/Ex10_main.css
+          test -f test.sh
 
-steps:
+      - name: Fix line endings
+        run: sed -i 's/\r$//' test.sh
 
-  - name: Checkout Student Submission
-    uses: actions/checkout@v4
-
-  - name: Display Repository Files
-    run: |
-      echo "Repository contents:"
-      find . -maxdepth 3 -type f
-
-  - name: Check Required Files
-    run: |
-      test -f index.html
-      test -f styles/Ex10_main.css
-      test -f test.sh
-
-  - name: Fix Windows Line Endings
-    run: |
-      sed -i 's/\r$//' test.sh
-
-  - name: Run Autograder
-    run: |
-      bash test.sh
-```
+      - name: Run tests
+        run: bash test.sh
